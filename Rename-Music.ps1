@@ -3,7 +3,7 @@ Param(
 	[Parameter(ParameterSetName = "File", Mandatory = $true)][Switch][Alias('f')]$file,
     [Parameter(ParameterSetName = "File", Mandatory = $true)][System.IO.FileInfo]$name,
     [Parameter(ParameterSetName = "Directory", Mandatory=$true)][Switch][Alias('d')]$directory,
-    [Parameter(ParameterSetName = "Directory", Mandatory = $true)][System.IO.FileInfo]$path,
+    [Parameter(ParameterSetName = "Directory", Mandatory = $true)][System.IO.DirectoryInfo]$path,
     [Switch][Alias('n')]$includeTrackNumber
 )
 
@@ -17,7 +17,7 @@ function Main () {
         rename-file $name $includeTrackNumber
     }
     if ($directory -and $path.Exists){
-        Write-host "rename all files from directory $path"
+        $path.EnumerateFileSystemInfos("*.mp3") | ForEach-Object {rename-file $_ $includeTrackNumber}
     }
 }
 
