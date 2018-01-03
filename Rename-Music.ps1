@@ -33,7 +33,7 @@ function rename-file([System.IO.FileInfo]$f, $track)
 function extract-tag-info([System.IO.FileInfo]$f){
     $mp3 = [TagLib.File]::create($f.FullName);
     $contributingInfo = @{
-        Artist = $mp3.Tag.FirstComposer
+        Artist = $mp3.Tag.FirstArtist
         Title = $mp3.Tag.Title
         TrackNumber = $mp3.Tag.Track
     }
@@ -66,7 +66,7 @@ function title-ize([System.Text.StringBuilder]$sb)
     {
         if ($sb[$i] -eq ' ')
         {
-		    $capitalizeNext = true;
+		    $capitalizeNext = $true;
 		    $sb.Remove($i, 1);
 		    $length--;
 		    $i--;
@@ -76,7 +76,7 @@ function title-ize([System.Text.StringBuilder]$sb)
 		    if ($capitalizeNext)
 		    {
 			    $sb[$i] = [char]::ToUpperInvariant($sb[$i]);
-			    $capitalizeNext = false;
+			    $capitalizeNext = $false;
 		    }
         }
     }
